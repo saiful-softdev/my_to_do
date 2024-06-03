@@ -19,31 +19,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Saiful ToDo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-        elevatedButtonTheme:ElevatedButtonThemeData(
-    style: ElevatedButton
-    .styleFrom(
-    foregroundColor:
-    Colors.white,
-    minimumSize:
-    const Size(0, 45),
-    backgroundColor:
-    Colors
-    .greenAccent,
-    shape:
-    RoundedRectangleBorder(
-    borderRadius:
-    BorderRadius
-    .circular(
-    10),
-    )
-
-    ))),
-
-
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+          elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  minimumSize: const Size(0, 45),
+                  backgroundColor: Colors.greenAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )))),
       home: const ToDoScreen(),
     );
   }

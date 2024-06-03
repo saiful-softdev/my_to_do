@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_to_do/db/db_helper.dart';
@@ -29,26 +28,24 @@ class _ToDoScreenState extends State<ToDoScreen> {
         TextEditingController();
     final TextEditingController _textEditTEController = TextEditingController();
     final widthSize = MediaQuery.of(context).size.width - 50;
+
     return FutureBuilder(
         future: dbHelper.queryAllRows(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.hasError) {
-            return Center(
-              child: Text("Error : {$snapshot.error}"),
-            );
+            return Center(child: Text("Error : {$snapshot.error}"));
           } else {
             List<Map<String, dynamic>> data = snapshot.data ?? [];
 
             return SafeArea(
               child: Scaffold(
                 appBar: AppBar(
-                  toolbarHeight: 75,
-                  backgroundColor: Colors.cyan.withOpacity(.6),
-                  title: const Text("To-Do List"),
-                  centerTitle: true,
-                ),
+                    toolbarHeight: 75,
+                    backgroundColor: Colors.cyan.withOpacity(.6),
+                    title: const Text(" Saiful To-Do List"),
+                    centerTitle: true),
                 floatingActionButtonAnimator:
                     FloatingActionButtonAnimator.scaling,
                 floatingActionButtonLocation:
@@ -70,9 +67,8 @@ class _ToDoScreenState extends State<ToDoScreen> {
                                     const EdgeInsets.symmetric(horizontal: 40),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(12)),
                                   child: Padding(
                                     padding: const EdgeInsets.all(20),
                                     child: Material(
@@ -138,9 +134,9 @@ class _ToDoScreenState extends State<ToDoScreen> {
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                         // child: TextButton(onPressed: (){}, child:const Column(
-                        //   children: [
-                        //     Icon(Icons.add),
-                        //     Text("New")
+                        //   children: [ my due task:+ icon ar nice add new ai lekata asbe
+                        //     Icon(Icons.add),//render flex error dekai
+                        //     Text("Add New ")
                         //   ],
                         // ) )
                         child: const Icon(Icons.add),
@@ -152,8 +148,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                     itemCount: data.length,
                     itemBuilder: (context, index) {
                       var item = data[index];
-                      _titleEditTEController.text = item["todoTitle"];
-                      _textEditTEController.text = item["todo"];
+
                       return Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Column(
@@ -192,9 +187,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                                 ),
                               ),
                             ),
-                            const SizedBox(
-                              height: 5,
-                            ),
+                            const SizedBox(height: 5),
                             Container(
                               height: 50,
                               width: widthSize,
@@ -208,16 +201,171 @@ class _ToDoScreenState extends State<ToDoScreen> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   TextButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        _titleEditTEController.text =
+                                            item["todoTitle"];
+                                        _textEditTEController.text =
+                                            item["todo"];
+
+                                        Get.dialog(
+                                            barrierDismissible: true,
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 40),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12)),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              20),
+                                                      child: Material(
+                                                        child: Column(
+                                                          children: [
+                                                            const SizedBox(
+                                                                height: 8),
+                                                            const Text(
+                                                              "Edit To Do",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
+                                                            Column(children: [
+                                                              TextFormField(
+                                                                  controller:
+                                                                      _titleEditTEController,
+                                                                  decoration: const InputDecoration(
+                                                                      labelText:
+                                                                          "Title")),
+                                                              TextFormField(
+                                                                  controller:
+                                                                      _textEditTEController,
+                                                                  decoration: const InputDecoration(
+                                                                      labelText:
+                                                                          "To Do")),
+                                                              const SizedBox(
+                                                                  height: 25)
+                                                            ]),
+                                                            Row(
+                                                              children: [
+                                                                Expanded(
+                                                                    child: ElevatedButton(
+                                                                        onPressed: () {
+                                                                          Get.back();
+                                                                        },
+                                                                        child: const Text('Cancel'))),
+                                                                const SizedBox(
+                                                                    width: 5),
+                                                                Expanded(
+                                                                    child: ElevatedButton(
+                                                                        onPressed: () {
+                                                                          setState(
+                                                                              () {
+                                                                            dbHelper.update(
+                                                                                item["todoId"],
+                                                                                _titleEditTEController?.text,
+                                                                                _textEditTEController?.text);
+                                                                          });
+                                                                          Get.back();
+                                                                        },
+                                                                        child: const Text("Update")))
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ));
+                                      },
                                       child: const Text(
                                         "Edit",
                                         style: TextStyle(color: Colors.blue),
                                       )),
                                   TextButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Get.dialog(
+                                            barrierDismissible: true,
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 40),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                    ),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              20),
+                                                      child: Material(
+                                                        child: Column(
+                                                          children: [
+                                                            const SizedBox(
+                                                                height: 8),
+                                                            const Text(
+                                                              "Delete This To Do",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 40),
+                                                            Row(
+                                                              children: [
+                                                                Expanded(
+                                                                    child: ElevatedButton(
+                                                                        onPressed: () {
+                                                                          Get.back();
+                                                                        },
+                                                                        child: const Text('Cancel'))),
+                                                                const SizedBox(
+                                                                    width: 5),
+                                                                Expanded(
+                                                                    child: ElevatedButton(
+                                                                        onPressed: () {
+                                                                          dbHelper
+                                                                              .delete(item["todoId"]);
+
+                                                                          Get.back();
+                                                                          setState(
+                                                                              () {});
+                                                                        },
+                                                                        child: const Text("Confirm")))
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ));
+                                      },
                                       child: const Text(
                                         "Delete",
-                                        style: TextStyle(color: Colors.red),
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
                                       )),
                                 ],
                               ),
@@ -231,4 +379,14 @@ class _ToDoScreenState extends State<ToDoScreen> {
           }
         });
   }
+
+
+  String? textValidator(value) {
+    if (value!.isEmpty) {
+      return "Empty Field";
+    }
+    return null;
+  }
+
+
 }
