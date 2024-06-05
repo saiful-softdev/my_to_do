@@ -107,9 +107,9 @@ class _ToDoScreenState extends State<ToDoScreen> {
                                                       onPressed: () {
                                                         dbHelper.insert(
                                                             _titleTEController
-                                                                ?.text,
+                                                                .text,
                                                             _textTEController
-                                                                ?.text);
+                                                                .text);
 
                                                         Get.back();
                                                         setState(() {});
