@@ -36,9 +36,11 @@ class DBHelper {
   }
 
   Future<int?> update(int? columnID, String? title, String? todo) async {
-    return await db?.update(
-        _table, {_todoId: columnID, _todoTitle: title, _todo: todo},
-        where: "_toDoId=?", whereArgs: [columnID]);
+    int? val= await db?.update(
+        _table,
+        { _todoTitle: title, _todo: todo},
+        where: "todoId=?", whereArgs: [columnID]);
+    return val;
   }
 
   Future<int?> delete(int? columnId) async {

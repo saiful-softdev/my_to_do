@@ -267,14 +267,18 @@ class _ToDoScreenState extends State<ToDoScreen> {
                                                                 Expanded(
                                                                     child: ElevatedButton(
                                                                         onPressed: () {
+
                                                                           setState(
+
                                                                               () {
                                                                             dbHelper.update(
                                                                                 item["todoId"],
                                                                                 _titleEditTEController?.text,
                                                                                 _textEditTEController?.text);
+
                                                                           });
                                                                           Get.back();
+
                                                                         },
                                                                         child: const Text("Update")))
                                                               ],
